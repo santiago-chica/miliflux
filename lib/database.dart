@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -57,5 +58,31 @@ class DatabaseService {
     );
 
     return database;
+  }
+
+  void insertAlarm(Int id, String name, Int hour, Int minute) async {
+    final db = await getDatabase();
+
+    final values = {
+      _alarmNameColumn: name,
+      _alarmHourColumn: hour,
+      _alarmMinuteColumn: minute,
+    };
+
+    await db.insert(
+      _alarmTableName,
+      values,
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
+  }
+
+  void removeAlarm(Int id) async {
+    final db = await getDatabase();
+
+    await db.delete(
+      _alarmTableName,
+      where: '$_alarmIdColumn = ?',
+      whereArgs: [id],
+    );
   }
 }
