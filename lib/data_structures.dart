@@ -26,6 +26,30 @@ class PillEntry {
   String getStringFormat() => _getStringFormat(_pillTime);
 }
 
+class IconGetter {
+  final List<IconData> _iconList = [
+    Icons.medication_liquid,
+    Icons.healing,
+    Icons.water_drop_rounded,
+    Icons.favorite,
+    Icons.tag_faces_sharp,
+    Icons.sunny,
+  ];
+
+  Icon getIconFromId(int id) {
+    final IconData iconData = _iconList.elementAtOrNull(id) ?? _iconList.first;
+
+    return Icon(iconData);
+  }
+
+  List<Icon> getIconList() {
+    return _iconList.map(
+      (iconData) => Icon(iconData)
+    ).toList();
+  }
+  
+}
+
 String _getStringFormat(TimeOfDay dayTime) {
     String hour = dayTime.hourOfPeriod.toString();
     String minute = dayTime.minute.toString().padLeft(2, '0');
